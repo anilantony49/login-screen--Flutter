@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class ScreenHome extends StatelessWidget {
   final _usernametextController = TextEditingController();
   final _PasswordtextController = TextEditingController();
+
+  final _formKey=GlobalKey<FormState>();
   ScreenHome({Key? key}) : super(key: key);
 
   @override
@@ -17,35 +19,66 @@ class ScreenHome extends StatelessWidget {
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(15.0),
-            child: Column(
-              children: [
-                TextFormField(
+            child: Form(
+              key:_formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                   
+                      decoration: const InputDecoration(
+                          hintText: 'username', border: OutlineInputBorder()),
+                      controller: _usernametextController,
+                       validator: (value) {
+                      if(value==null||value.isEmpty){
+                         return 'value is empty';
+
+                      }else{
+                        return null;
+                      }
+                    },),
+                      
+                  const SizedBox(
+                    height:10
+                  ),
+                  TextFormField(
+                    
+                    obscureText: true,
                     decoration: const InputDecoration(
-                        hintText: 'username', border: OutlineInputBorder()),
-                    controller: _usernametextController),
-                const SizedBox(
-                  height:10
-                ),
-                TextFormField(
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                      hintText: 'password', border: OutlineInputBorder()),
-                  controller: _PasswordtextController,
-                ),
-                 const SizedBox(
-                  height:10
-                ),
-                ElevatedButton(onPressed: () {
-                  CheckLogin();
-                }, child: const Text('Save'))
-              ],
+                        hintText: 'password', border: OutlineInputBorder()),
+                    controller: _PasswordtextController,
+                     validator: (value) {
+                      if(value==null||value.isEmpty){
+                        return 'value is empty';
+
+                      }else{
+                        return null;
+                      }
+                    },
+                  ),
+                   const SizedBox(
+                    height:10
+                  ),
+                  ElevatedButton(onPressed: () {
+                    if( _formKey.currentState!.validate()){
+                       CheckLogin(context);
+                    }else{
+                    print('data empty');
+                    }
+                   
+                    // 
+                  }, child: const Text('Save'))
+                ],
+              ),
             ),
           ),
         ));
   }
 
-  Future <void> CheckLogin()async{
-  if(_usernametextController==_PasswordtextController){
+ void CheckLogin(BuildContext context){
+  final username=_usernametextController.text;
+  final password = _PasswordtextController.text;
+
+  if(username==password){
     // go to homeScreen
   }else{
     print('password and username does not match');
