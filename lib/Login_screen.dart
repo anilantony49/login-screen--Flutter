@@ -1,13 +1,17 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:sample3/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ScreenHome extends StatelessWidget {
+import 'main.dart';
+
+class LoginScreen extends StatelessWidget {
   final _usernametextController = TextEditingController();
   final _PasswordtextController = TextEditingController();
 
   final _formKey=GlobalKey<FormState>();
-  ScreenHome({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +70,7 @@ class ScreenHome extends StatelessWidget {
                     }
                    
                     // 
-                  }, child: const Text('Save'))
+                  }, child: const Text('Login'))
                 ],
               ),
             ),
@@ -74,14 +78,24 @@ class ScreenHome extends StatelessWidget {
         ));
   }
 
- void CheckLogin(BuildContext context){
+ void CheckLogin(BuildContext context)async{
   final username=_usernametextController.text;
   final password = _PasswordtextController.text;
 
   if(username==password){
-    // go to homeScreen
+   final sharedpref=await  SharedPreferences.getInstance();
+    final loginvalue= sharedpref.setBool(SAVE_KEY, true);
+
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+      return const HomeScreen();
+    }));
   }else{
-    print('password and username does not match');
+    // print('password and username does not match');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('password and username does not match'),
+        behavior:SnackBarBehavior.floating ,
+        margin: EdgeInsets.all(10),));
   }
 }
 

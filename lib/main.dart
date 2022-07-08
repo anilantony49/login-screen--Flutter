@@ -1,12 +1,9 @@
 
 import 'package:flutter/material.dart';
-
-
-
-
 import 'SplashScreen.dart';
 
 
+const SAVE_KEY= 'sharedprefernce value';
 
 void main(List<String> args)async {
 
@@ -25,18 +22,11 @@ class Home extends StatelessWidget {
       
       primaryColor: Colors.red
      ),
-     home: SplashScreen(
+     home: const SplashScreen(
       
      ),
      
-    //  routes:{
-    //   'screen 1':(context) {
-    //    return second(); 
-    //   },
-    //   'screen 2':(context) {
-    //    return ScreenHome(); 
-    //  } ,
-    //  }
+    
     );
     
   }

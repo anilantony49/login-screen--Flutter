@@ -1,13 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:sample3/screen_home.dart';
+import 'package:sample3/Login_screen.dart';
+import 'package:sample3/home_screen.dart';
+import 'package:sample3/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
+
+  
   const SplashScreen({ Key? key }) : super(key: key);
+  
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
+
 }
 
 
@@ -15,7 +22,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override 
  void initState(){
-  gotoLogin();
+  checkuserLogin();
+  // gotoLogin();
     super.initState();
   }
  @override 
@@ -28,9 +36,23 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
  Future< void >gotoLogin( )async{
-await  Future.delayed(Duration(seconds: 3));
-  Navigator.of(context).push(MaterialPageRoute(builder: (context){
-    return ScreenHome();
+await  Future.delayed(const Duration(seconds: 3));
+  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+    return LoginScreen();
   }));
 }
+
+void checkuserLogin()async{
+  final sharedpref= await SharedPreferences.getInstance();
+final value=sharedpref.getBool(SAVE_KEY);
+if(value==null||value==false){
+  gotoLogin();
+}else{
+  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>
+    const HomeScreen()
+  ));
 }
+ 
+}
+}
+
